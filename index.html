@@ -42,8 +42,14 @@
         .bold-line-horz {
             border-top: 1px solid rgba(0, 0, 0, 1);
         }
+        #slider-container {
+            display: flex;
+            align-items: center;
+        }
+        #slider-label {
+            margin-right: 10px;
+        }
         #slider {
-            width: 100%;
             max-width: 400px;
             padding: 10px;
         }
@@ -53,9 +59,10 @@
     <input type="file" id="imageInput" accept="image/*">
     <input type="url" id="imageUrl" placeholder="Image URL" value="cross-stitch-frog.jpg">
     <button onclick="loadImage()">Load Image</button>
-    <br>
-    <label for="slider">Grid Size:</label>
-    <input type="range" id="slider" min="5" max="50" step="5" value="10">
+    <div id="slider-container">
+        <label for="slider" id="slider-label">Grid Size:</label>
+        <input type="range" id="slider" min="5" max="50" step="5" value="10">
+    </div>
 
     <div id="container">
         <img id="image" src="" alt="Uploaded Image">
