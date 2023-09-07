@@ -52,41 +52,44 @@
             // Get the selected image source
             const imageSrc = imageInput.files[0] ? URL.createObjectURL(imageInput.files[0]) : imageUrlInput.value;
             
+            // Set the image source and wait for it to load
+            image.onload = function() {
+                // Create the grid
+                const gridSize = 10;
+                const imageWidth = image.width;
+                const imageHeight = image.height;
+
+                for (let x = 0; x <= imageWidth; x += gridSize) {
+                    const line = document.createElement('div');
+                    line.className = 'grid-line';
+                    line.style.width = gridSize + 'px';
+                    line.style.height = imageHeight + 'px';
+                    line.style.left = x + 'px';
+
+                    if (x % (gridSize * 10) === 0) {
+                        line.className += ' bold-line';
+                    }
+
+                    grid.appendChild(line);
+                }
+
+                for (let y = 0; y <= imageHeight; y += gridSize) {
+                    const line = document.createElement('div');
+                    line.className = 'grid-line';
+                    line.style.width = imageWidth + 'px';
+                    line.style.height = gridSize + 'px';
+                    line.style.top = y + 'px';
+
+                    if (y % (gridSize * 10) === 0) {
+                        line.className += ' bold-line';
+                    }
+
+                    grid.appendChild(line);
+                }
+            };
+
             // Set the image source
             image.src = imageSrc;
-
-            // Create the grid
-            const gridSize = 10;
-            const imageWidth = image.width;
-            const imageHeight = image.height;
-
-            for (let x = 0; x <= imageWidth; x += gridSize) {
-                const line = document.createElement('div');
-                line.className = 'grid-line';
-                line.style.width = gridSize + 'px';
-                line.style.height = imageHeight + 'px';
-                line.style.left = x + 'px';
-
-                if (x % (gridSize * 10) === 0) {
-                    line.className += ' bold-line';
-                }
-
-                grid.appendChild(line);
-            }
-
-            for (let y = 0; y <= imageHeight; y += gridSize) {
-                const line = document.createElement('div');
-                line.className = 'grid-line';
-                line.style.width = imageWidth + 'px';
-                line.style.height = gridSize + 'px';
-                line.style.top = y + 'px';
-
-                if (y % (gridSize * 10) === 0) {
-                    line.className += ' bold-line';
-                }
-
-                grid.appendChild(line);
-            }
         }
 
         // Load a sample image
