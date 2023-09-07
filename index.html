@@ -33,10 +33,14 @@
         }
         .grid-line {
             position: absolute;
-            border: 1px solid rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.25);
         }
-        .bold-line {
-            border: 1px solid rgba(0, 0, 0, 1);
+        .bold-line-vert {
+            border-left: 1px solid rgba(0, 0, 0, 1);
+        }
+        .bold-line-horz {
+            border-top: 1px solid rgba(0, 0, 0, 1);
         }
     </style>
 </head>
@@ -84,7 +88,7 @@
                     line.style.left = x + 'px';
 
                     if (x % (gridSize * 10) === 0) {
-                        line.className += ' bold-line';
+                        line.className += ' bold-line-vert';
                     }
 
                     grid.appendChild(line);
@@ -98,7 +102,7 @@
                     line.style.top = y + 'px';
 
                     if (y % (gridSize * 10) === 0) {
-                        line.className += ' bold-line';
+                        line.className += ' bold-line-horz';
                     }
 
                     grid.appendChild(line);
