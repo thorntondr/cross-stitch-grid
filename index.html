@@ -16,7 +16,7 @@
             width: 100%;
             height: 100%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
         }
         #image {
@@ -42,19 +42,28 @@
         .bold-line-horz {
             border-top: 1px solid rgba(0, 0, 0, 1);
         }
+        #slider {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
     <input type="file" id="imageInput" accept="image/*">
     <input type="url" id="imageUrl" placeholder="Image URL" value="cross-stitch-frog.jpg">
     <button onclick="loadImage()">Load Image</button>
-
+    <input type="range" id="slider" min="5" max="50" step="5" value="10">
+ 
     <div id="container">
         <img id="image" src="" alt="Uploaded Image">
         <div id="grid"></div>
     </div>
 
     <script>
+        const slider = document.getElementById('slider');
+        slider.addEventListener('input', updateGridSize);
+
         function loadImage() {
             const imageInput = document.getElementById('imageInput');
             const imageUrlInput = document.getElementById('imageUrl');
@@ -69,48 +78,53 @@
             
             // Set the image source and wait for it to load
             image.onload = function() {
-                // Create the grid
-                const gridSize = 10;
-                const containerWidth = window.innerWidth;
-                const containerHeight = window.innerHeight;
-                const imageWidth = image.width;
-                const imageHeight = image.height;
-
-                // Set the dimensions of the grid to match the window size
-                grid.style.width = containerWidth + 'px';
-                grid.style.height = containerHeight + 'px';
-
-                for (let x = 0; x <= containerWidth; x += gridSize) {
-                    const line = document.createElement('div');
-                    line.className = 'grid-line';
-                    line.style.width = gridSize + 'px';
-                    line.style.height = containerHeight + 'px';
-                    line.style.left = x + 'px';
-
-                    if (x % (gridSize * 10) === 0) {
-                        line.className += ' bold-line-vert';
-                    }
-
-                    grid.appendChild(line);
-                }
-
-                for (let y = 0; y <= containerHeight; y += gridSize) {
-                    const line = document.createElement('div');
-                    line.className = 'grid-line';
-                    line.style.width = containerWidth + 'px';
-                    line.style.height = gridSize + 'px';
-                    line.style.top = y + 'px';
-
-                    if (y % (gridSize * 10) === 0) {
-                        line.className += ' bold-line-horz';
-                    }
-
-                    grid.appendChild(line);
-                }
+                updateGridSize();
             };
 
             // Set the image source
             image.src = imageSrc;
+        }
+
+        function updateGridSize() {
+            const grid = document.getElementById('grid');
+            const gridSize = parseInt(slider.value);
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+
+            // Clear previous grid
+            grid.innerHTML = '';
+
+            // Set the dimensions of the grid to match the window size
+            grid.style.width = containerWidth + 'px';
+            grid.style.height = containerHeight + 'px';
+
+            for (let x = 0; x <= containerWidth; x += gridSize) {
+                const line = document.createElement('div');
+                line.className = 'grid-line';
+                line.style.width = gridSize + 'px';
+                line.style.height = containerHeight + 'px';
+                line.style.left = x + 'px';
+
+                if (x % (gridSize * 10) === 0) {
+                    line.className += ' bold-line-vert';
+                }
+
+                grid.appendChild(line);
+            }
+
+            for (let y = 0; y <= containerHeight; y += gridSize) {
+                const line = document.createElement('div');
+                line.className = 'grid-line';
+                line.style.width = containerWidth + 'px';
+                line.style.height = gridSize + 'px';
+                line.style.top = y + 'px';
+
+                if (y % (gridSize * 10) === 0) {
+                    line.className += ' bold-line-horz';
+                }
+
+                grid.appendChild(line);
+            }
         }
 
         // Load a sample image
